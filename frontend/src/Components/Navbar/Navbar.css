@@ -1,0 +1,25 @@
+.navbarContainer {
+   height: 8vh;
+   background-color: #b287a3;
+   display: flex;
+   flex-direction: row-reverse;
+}
+.navbarInfo {
+   background-color: #c0f8d1;
+   height: 6vh;
+   width: 40%;
+   margin-top: 1vh;
+   margin-right: 1vh;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+.userInfo {
+   display: flex;
+   flex-direction: row;
+   gap: 5vw;
+   margin-right: 2vh;
+}
+.userName {
+   font-size: larger;
+}
