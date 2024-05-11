@@ -9,18 +9,16 @@ import CreateUser from './User/CreateUser'
 
 function App() {
    return (
-      <>
-         <div className="App">
-            <Router>
-               <Routes>
-                  <Route path="/" element={<Login />} />
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/logout" element={<Logout />} />
-                  <Route path="/signup" element={<CreateUser />} />
-               </Routes>
-            </Router>
-         </div>
-      </>
+      <div className="App">
+         <Router>
+            <Routes>
+               <Route path="/" element={<Login />} />
+               <Route path="/home" element={<Home />} />
+               <Route path="/logout" element={<Logout />} />
+               <Route path="/signup" element={<CreateUser />} />
+            </Routes>
+         </Router>
+      </div>
    )
 }
 

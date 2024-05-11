@@ -9,7 +9,7 @@ import { createTodo, markCheckMark, updateTodo } from '../../User/userService'
 
 interface Props {
    folder: FolderInt
-   updateFolder: (updatedFolder: FolderInt, folderId: number) => void
+   updateFolder: (updatedFolder: FolderInt) => void
 }
 
 function Folder(props: Props) {
@@ -20,20 +20,18 @@ function Folder(props: Props) {
 
    async function handleSubmit(e: React.FormEvent) {
       e.preventDefault()
+      if (newTodoTitle.trim() === '') {
+         return
+      }
       try {
-         if (newTodoTitle.trim() !== '') {
-            const newTodo = await createTodo(props.folder.id, newTodoTitle)
-            const updatedTodos = [...props.folder.todos, newTodo]
-            props.updateFolder(
-               {
-                  ...props.folder,
-                  todos: updatedTodos,
-               },
-               props.folder.id
-            )
-            setNewTodoTitle('')
-            setShowPopup(false)
-         }
+         const newTodo = await createTodo(props.folder.id, newTodoTitle)
+         const updatedTodos = [...props.folder.todos, newTodo]
+         props.updateFolder({
+            ...props.folder,
+            todos: updatedTodos,
+         })
+         setNewTodoTitle('')
+         setShowPopup(false)
       } catch (err) {
          console.error('Error creating todo:', err)
       }
@@ -41,56 +39,50 @@ function Folder(props: Props) {
 
    async function handleEditTodo(todo: TodoInt) {
       setEditingTodo(todo)
-      setEditTodoTitle(todo.title as string)
+      setEditTodoTitle(todo.title)
    }
 
-   async function handleUpdateTodo() {
-      if (editingTodo && editTodoTitle.trim() !== '') {
-         try {
-            const updatedTodo = await updateTodo(editingTodo.id, editTodoTitle)
-            const updatedTodos = props.folder.todos.map((todo) =>
-               todo.id === updatedTodo.id ? updatedTodo : todo
-            )
-            props.updateFolder(
-               {
-                  ...props.folder,
-                  todos: updatedTodos,
-               },
-               props.folder.id
-            )
-            setEditingTodo(null)
-            setEditTodoTitle('')
-         } catch (err) {
-            console.error('Error updating todo:', err)
-         }
+   async function handleUpdateTodo(e: React.FormEvent) {
+      e.preventDefault()
+      if (!editingTodo || editTodoTitle.trim() == '') {
+         return
+      }
+      try {
+         const updatedTodo = await updateTodo(editingTodo.id, editTodoTitle)
+         const updatedTodos = props.folder.todos.map((todo) =>
+            todo.id === updatedTodo.id ? updatedTodo : todo
+         )
+         props.updateFolder({
+            ...props.folder,
+            todos: updatedTodos,
+         })
+         setEditingTodo(null)
+         setEditTodoTitle('')
+      } catch (err) {
+         console.error('Error updating todo:', err)
       }
    }
 
    async function handleCheckbox(id: number) {
       try {
-         // Call markCheckMark to toggle the checkmark status
          const updatedTodo = await markCheckMark(id)
-
-         // Update the state to reflect the changes in the UI
          const updatedTodos = props.folder.todos.map((todo) =>
             todo.id === updatedTodo.id ? updatedTodo : todo
          )
-         props.updateFolder(
-            {
-               ...props.folder,
-               todos: updatedTodos,
-            },
-            props.folder.id
-         )
+         props.updateFolder({
+            ...props.folder,
+            todos: updatedTodos,
+         })
       } catch (error) {
          console.error('Error marking checkMark:', error)
       }
    }
+
    return (
       <div className="container">
          <div className="title">{props.folder.title}</div>
          <div className="List">
-            {props.folder.todos && props.folder.todos.length > 0 ? (
+            {props.folder.todos.length > 0 ? (
                props.folder.todos.map((todo: TodoInt) => (
                   <div className="eachTodo" key={todo.id}>
                      <span>{todo.title}</span>

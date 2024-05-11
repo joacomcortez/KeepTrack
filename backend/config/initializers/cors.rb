@@ -17,9 +17,9 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'http://localhost:3000'  # Update this with the origin of your React frontend
-    resource '/users/*', headers: :any, methods: [:post], credentials: true
-    resource '/folders/*', headers: :any, methods: [:post], credentials: true
-    resource '/todos/*', headers: :any, methods: [:post], credentials: true
+    resource '/users/*', headers: :any, methods: [:post, :put], credentials: true
+    resource '/folders/*', headers: :any, methods: [:post, :put], credentials: true
+    resource '/todos/*', headers: :any, methods: [:post, :put], credentials: true
 
   end
 end

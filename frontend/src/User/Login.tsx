@@ -17,9 +17,9 @@ function Login() {
 
    async function handleForm(e: any) {
       e.preventDefault()
-      const test = await postLogin(user, password)
-      if (test) {
-         updateSessionUser(test.user)
+      const response = await postLogin(user, password)
+      if (response) {
+         updateSessionUser(response.user)
          navigate('/home')
       } else {
          setError('Log in error, rewrite username and password')
@@ -30,7 +30,7 @@ function Login() {
    return (
       <div className="wrapper">
          <div className="text-center mt-4 name">Keep Track :)</div>
-         <form onSubmit={(e) => handleForm(e)} className="p-3 mt-3">
+         <form onSubmit={handleForm} className="p-3 mt-3">
             <div className="form-field d-flex align-items-center">
                <span className="far fa-user"></span>
                <input

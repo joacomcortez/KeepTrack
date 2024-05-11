@@ -18,7 +18,7 @@ end
     if @user.save
       render status: 200, json: { user: @user }
     else
-      render status: 400, json: { message: @user.error.details }
+      render status: 400, json: { message: @user.errors.details }
     end
   end
 
@@ -43,17 +43,17 @@ end
     end
   end
   
-  def getTodos
+  def todos
     @user = User.find(params[:id])
-    if @user
-      folders_with_todos = @user.folders_with_todos
-      if folders_with_todos.present?
-        render status: 200, json: folders_with_todos.as_json(include: { todos: {} })
-      else
-        render status: 400, json: { message: 'Error fetching folders' }
-      end
+    if @user.blank?
+      return render status: 400, json: {message: 'User not found'}
+    end
+
+    folders = @user.folders
+    if folders.present?
+      render status: 200, json: folders.as_json(include: [:todos])
     else
-      render status: 400, json: {message: 'User not found'}
+      render status: 400, json: { message: 'Error fetching folders' }
     end
   end
 private

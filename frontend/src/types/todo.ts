@@ -1,5 +1,5 @@
 export interface TodoInt {
-   title: String
+   title: string
    check: boolean
    id: number
 }

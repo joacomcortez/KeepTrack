@@ -13,18 +13,16 @@ function Home() {
    const [folders, setFolders] = useState<FolderInt[]>([])
    const [showNewFolderPopup, setShowNewFolderPopup] = useState(false)
    const [newFolderTitle, setNewFolderTitle] = useState('')
-   const [updatedFolderId, setUpdatedFolderId] = useState<number | null>(null)
 
    useEffect(() => {
       if (user?.id) {
          fetchFolders(user.id)
       }
-   }, [updatedFolderId])
+   }, [])
 
    const fetchFolders = async (id: number) => {
       try {
          const folders = await getTodos(id)
-         console.log(folders)
          setFolders(folders)
       } catch (err) {
          console.error('Error fetching folders:', err)
@@ -39,17 +37,22 @@ function Home() {
       setShowNewFolderPopup(false)
       setNewFolderTitle('')
    }
-   const handleNewFolderSubmit = async (userId: number, e: React.FormEvent) => {
+
+   const handleNewFolderSubmit = async (userId: number | undefined, e: React.FormEvent) => {
+      if (!userId) {
+         return
+      }
+
+      if (newFolderTitle.trim() === '') {
+         return
+      }
+
       e.preventDefault()
       try {
-         if (newFolderTitle.trim() !== '') {
-            const newFolder: FolderInt = await createFolder(userId, newFolderTitle)
-            setFolders([...folders, newFolder])
-            setShowNewFolderPopup(false)
-            setNewFolderTitle('')
-
-            await fetchFolders(userId)
-         }
+         const newFolder = await createFolder(userId, newFolderTitle)
+         setFolders([newFolder, ...folders])
+         setShowNewFolderPopup(false)
+         setNewFolderTitle('')
       } catch (err) {
          console.error('Error creating folder:', err)
       }
@@ -59,8 +62,9 @@ function Home() {
       setNewFolderTitle(e.target.value)
    }
 
-   const updateFolder = (updatedFolder: FolderInt, folderId: number) => {
+   const updateFolder = (updatedFolder: FolderInt) => {
       const updatedFolderId = updatedFolder.id
+
       setFolders((prevFolders) => {
          return prevFolders.map((folder) => {
             if (folder.id === updatedFolderId) {
@@ -69,10 +73,6 @@ function Home() {
             return folder
          })
       })
-      // setUpdatedFolderId(updatedFolderId)
-      if (user?.id) {
-         fetchFolders(user.id)
-      }
    }
    return (
       <>
@@ -88,7 +88,7 @@ function Home() {
             {showNewFolderPopup && (
                <div className="popup">
                   <div>
-                     <form className="popupContent" onSubmit={(e) => handleNewFolderSubmit(user?.id || 0, e)}>
+                     <form className="popupContent" onSubmit={(e) => handleNewFolderSubmit(user?.id, e)}>
                         <TextField
                            className="newTitle"
                            value={newFolderTitle}
