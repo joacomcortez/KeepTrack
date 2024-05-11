@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import './Navbar.css'
 
 import { useSessionUser } from '../../Store/userStore'
+import Logout from '../../User/Logout'
 function Navbar() {
-   // const navigate = useNavigate()
+   const navigate = useNavigate()
    const user = useSessionUser()
-   // function goToList() {
-   //    navigate('/list')
-   // }
+   function handleLogout() {
+      navigate('/logout')
+   }
    return (
       <div className="navbarContainer">
          <div className="navbarInfo">
@@ -20,7 +21,7 @@ function Navbar() {
                   <ChecklistIcon />
                </button> */}
                <div className="userName">{user?.username}</div>
-               <div className="logout">
+               <div className="logout" onClick={handleLogout}>
                   <LogoutIcon />
                </div>
             </div>

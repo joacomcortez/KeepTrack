@@ -1,30 +1,32 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import './createUser.css'
 
-import '../stylesheet/Login.css'
-import '../stylesheet/CreateUser.css'
 import { createUser } from './userService'
+import { updateSessionUser } from '../Store/userStore'
 function CreateUser() {
    //recursos
    const navigate = useNavigate()
    const [user, setUser] = useState<string>('')
    const [password, setPassword] = useState<string>('')
-   const [picture, setPicture] = useState<File>()
-   //funcion para ejecutar
 
-   function handleForm(e: any) {
-      e.preventDefault()
-      const test = createUser(user, password, picture)
-      if (user !== undefined) {
-         navigate('/')
+   async function handleForm(e: any) {
+      try {
+         e.preventDefault()
+         const response = await createUser(user, password)
+         if (user !== undefined) {
+            updateSessionUser(response.user)
+            navigate('/home')
+         }
+      } catch (err) {
+         console.error('Error signing up:', err)
       }
    }
    return (
       <div className="wrapper">
-         <div className="text-center mt-4 name">Calera</div>
+         <div className="text-center mt-4 name">Keep Track</div>
          <form className="p-3 mt-3" onSubmit={(e) => handleForm(e)}>
             <div className="form-field d-flex align-items-center">
                <span className="far fa-user"></span>
@@ -50,16 +52,6 @@ function CreateUser() {
                   id="pwd"
                   placeholder="Confirm password"
                   onChange={(e: any) => setPassword(e.target.value)}
-               />
-            </div>
-            <p className="uploadpicture">Upload profile picture</p>
-            <div className="picture">
-               <input
-                  type="file"
-                  onChange={(e: any) => {
-                     setPicture(e.target.files[0])
-                  }}
-                  accept="image/*"
                />
             </div>
             <button className="btn mt-3" type="submit">

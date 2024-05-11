@@ -9,7 +9,12 @@ Rails.application.routes.draw do
 
   resources :folders
 
-  resources :todos
+  resources :todos do
+    member do
+      post :checkMarks
+    end
+
+  end
 
 
 

@@ -1,0 +1,38 @@
+.container {
+   background-color: #c0f8d1;
+   border-radius: 8%;
+   /* border-color: black;
+   border-style: solid; */
+   /* border-width: 1px; */
+   width: 40vw;
+}
+.title {
+   height: 3vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.List {
+   min-height: 5vh;
+   display: flex;
+   flex-direction: column;
+   gap: 1vh;
+   margin-top: 1vh;
+}
+.popupContent {
+   display: flex;
+   align-items: center;
+   gap: 1vh;
+}
+.enterTodoTitle {
+   width: 50%;
+}
+.popupButtons {
+   gap: 2vw;
+}
+.eachTodo {
+   display: flex;
+   gap: 1vh;
+   justify-content: center;
+   align-items: center;
+}

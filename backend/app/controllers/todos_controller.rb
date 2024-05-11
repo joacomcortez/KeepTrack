@@ -18,7 +18,6 @@ class TodosController < ApplicationController
         @todo = Todo.new(title: params[:title])
         @folder = Folder.find_by(id: params[:folderId])
         @todo.folder = @folder
-        @todo.check = false
         if @todo.save
             render status: 200, json: { todo: @todo }
         else
@@ -33,6 +32,16 @@ class TodosController < ApplicationController
         else
             render status: 400, json: { message: 'To do not found' }
     end
+    end
+
+    def checkMarks
+        @todo = Todo.find(params[:id])
+        @todo.check = !@todo.check
+        if @todo.save
+            render status: 200, json: { todo: @todo }
+        else
+            render status: 400, json: { message: 'To do not found' }
+        end
     end
 
     def destroy

@@ -1,0 +1,34 @@
+button,
+input[type='submit'],
+input[type='reset'] {
+   background: none;
+   color: inherit;
+   border: none;
+   padding: 0;
+   font: inherit;
+   cursor: pointer;
+   outline: inherit;
+}
+.folders {
+   display: flex;
+   flex-direction: column;
+   gap: 2vh;
+   align-items: center;
+   width: 100%;
+}
+.addFolder {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 1vh;
+}
+
+.popupContent {
+   display: flex;
+   flex-direction: column;
+   gap: 1vh;
+}
+.popupButtons {
+   display: flex;
+   justify-content: space-evenly;
+}

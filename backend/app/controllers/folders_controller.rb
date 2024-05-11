@@ -12,7 +12,7 @@ class FoldersController < ApplicationController
         if @folder.save
             render status: 200, json: {folder: @folder}
         else
-            render status: 400, json: {message: @user.error.details} 
+            render status: 400, json: {message: @folder.errors.details} 
         end
     end
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
-import '../stylesheet/Login.css'
+import './Login.css'
 import { useState } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { postLogin } from './userService'
@@ -20,7 +20,7 @@ function Login() {
       const test = await postLogin(user, password)
       if (test) {
          updateSessionUser(test.user)
-         navigate('/')
+         navigate('/home')
       } else {
          setError('Log in error, rewrite username and password')
          setUser('')

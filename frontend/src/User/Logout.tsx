@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
 import { cleanupSessionUser } from '../Store/userStore'
-import '../stylesheet/Logout.css'
+import './logout.css'
 
 function Logout() {
    const navigate = useNavigate()

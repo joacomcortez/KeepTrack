@@ -1,0 +1,12 @@
+* {
+   font-family: 'Poppins', sans-serif;
+}
+.picture {
+   margin: 10px;
+   text-align: center;
+   border: #555;
+}
+.uploadpicture {
+   font-weight: 400;
+   color: #555;
+}
