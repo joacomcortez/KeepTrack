@@ -22,27 +22,27 @@ To set up and run the project locally, follow these steps:
 2. **Frontend Setup:**
 
    ```bash
-cd KeepTrack/frontend
-npm install
+   cd KeepTrack/frontend
+   npm install
 
 3. **Backend Setup:**
    ```bash
-cd KeepTrack/backend
-bundle install
+   cd KeepTrack/backend
+   bundle install
 
 4. **Database Setup**
    ```bash
    cd your-project/backend
-rails db:create
-rails db:migrate
+   rails db:create
+   rails db:migrate
 
 5. **Start Development Servers**
-   - **Frontend**
+- **Frontend**
    ```bash
    cd Keeptrack/frontend
    npm start
    
-   - **Backend**
+- **Backend**
    ```bash
    cd KeepTrack/backend
    rails s
