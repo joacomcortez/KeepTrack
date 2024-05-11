@@ -17,5 +17,32 @@ To set up and run the project locally, follow these steps:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/your-project.git
+   git clone https://github.com/joacomcortez/KeepTrack.git
 
+2. **Frontend Setup:**
+
+   ```bash
+cd KeepTrack/frontend
+npm install
+
+3. **Backend Setup:**
+   ```bash
+cd KeepTrack/backend
+bundle install
+
+4. **Database Setup**
+   ```bash
+   cd your-project/backend
+rails db:create
+rails db:migrate
+
+5. **Start Development Servers**
+   - **Frontend**
+   ```bash
+   cd Keeptrack/frontend
+   npm start
+   
+   - **Backend**
+   ```bash
+   cd KeepTrack/backend
+   rails s
