@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :todos do
     member do
       post :checkMarks
+      post :edit
     end
 
   end

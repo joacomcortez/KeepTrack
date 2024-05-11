@@ -4,7 +4,8 @@ import { TodoInt } from '../../types/todo'
 import { FolderInt } from '../../types/folder'
 import AddIcon from '@mui/icons-material/Add'
 import TextField from '@mui/material/TextField'
-import { createTodo, markCheckMark } from '../../User/userService'
+import EditIcon from '@mui/icons-material/Edit'
+import { createTodo, markCheckMark, updateTodo } from '../../User/userService'
 
 interface Props {
    folder: FolderInt
@@ -14,6 +15,8 @@ interface Props {
 function Folder(props: Props) {
    const [showPopup, setShowPopup] = useState(false)
    const [newTodoTitle, setNewTodoTitle] = useState('')
+   const [editingTodo, setEditingTodo] = useState<TodoInt | null>(null)
+   const [editTodoTitle, setEditTodoTitle] = useState<string>('')
 
    async function handleSubmit(e: React.FormEvent) {
       e.preventDefault()
@@ -32,6 +35,31 @@ function Folder(props: Props) {
          console.error('Error creating todo:', err)
       }
    }
+
+   async function handleEditTodo(todo: TodoInt) {
+      setEditingTodo(todo)
+      setEditTodoTitle(todo.title as string)
+   }
+
+   async function handleUpdateTodo() {
+      if (editingTodo && editTodoTitle.trim() !== '') {
+         try {
+            const updatedTodo = await updateTodo(editingTodo.id, editTodoTitle)
+            const updatedTodos = props.folder.todos.map((todo) =>
+               todo.id === updatedTodo.id ? updatedTodo : todo
+            )
+            props.updateFolder({
+               ...props.folder,
+               todos: updatedTodos,
+            })
+            setEditingTodo(null)
+            setEditTodoTitle('')
+         } catch (err) {
+            console.error('Error updating todo:', err)
+         }
+      }
+   }
+
    async function handleCheckbox(id: number) {
       let response
       try {
@@ -42,6 +70,7 @@ function Folder(props: Props) {
       }
       return response
    }
+
    return (
       <div className="container">
          <div className="title">{props.folder.title}</div>
@@ -57,6 +86,9 @@ function Folder(props: Props) {
                            handleCheckbox(todo.id)
                         }}
                      />
+                     <div className="editTodo" onClick={() => handleEditTodo(todo)}>
+                        <EditIcon />
+                     </div>
                   </div>
                ))
             ) : (
@@ -80,6 +112,26 @@ function Folder(props: Props) {
                         Cancel
                      </button>
                      <button type="submit">Add Todo</button>
+                  </div>
+               </form>
+            </div>
+         )}
+         {editingTodo && (
+            <div className="popup">
+               <form className="popupContent" onSubmit={handleUpdateTodo}>
+                  <TextField
+                     className="enterTodoTitle"
+                     onChange={(e) => setEditTodoTitle(e.target.value)}
+                     value={editTodoTitle}
+                     id="standard-basic"
+                     label="enter new title"
+                     variant="standard"
+                  />
+                  <div className="popupButtons">
+                     <button type="button" onClick={() => setEditingTodo(null)}>
+                        Cancel
+                     </button>
+                     <button type="submit">Update Todo</button>
                   </div>
                </form>
             </div>

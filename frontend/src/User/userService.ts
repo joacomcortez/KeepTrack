@@ -47,3 +47,7 @@ export async function markCheckMark(id: number): Promise<TodoInt> {
    const response = await axios.post(`http://localhost:3001/todos/${id}/checkMarks`)
    return response.data
 }
+export async function updateTodo(id: number, title: string): Promise<TodoInt> {
+   const response = await axios.post(`http://localhost:3001/todos/${id}/edit`, { title })
+   return response.data
+}
