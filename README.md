@@ -8,6 +8,9 @@ Before you begin, ensure you have the following installed on your local developm
 - **Node.js:** [Download and install Node.js](https://nodejs.org/), which includes npm, the Node.js package manager.
 - **Ruby:** [Download and install Ruby](https://www.ruby-lang.org/en/downloads/), which is required for Ruby on Rails development.
 - **Ruby on Rails:** [Install Ruby on Rails](https://guides.rubyonrails.org/getting_started.html#installing-rails), a web application framework for server-side development.
+  Versions used:
+     -   Ruby: 3.1.2
+     -   Node: 18.20.2
 
 ### Getting Started
 
