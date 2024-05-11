@@ -24,6 +24,7 @@ function Home() {
    const fetchFolders = async (id: number) => {
       try {
          const folders = await getTodos(id)
+         console.log(folders)
          setFolders(folders)
       } catch (err) {
          console.error('Error fetching folders:', err)
@@ -105,7 +106,7 @@ function Home() {
             {folders.length > 0 ? (
                folders.map((folder) => (
                   <div key={folder.id}>
-                     <Folder folder={folder} updateFolder={updateFolder} />
+                     <Folder folder={folder} updateFolder={updateFolder} key={folder.id} />
                   </div>
                ))
             ) : (

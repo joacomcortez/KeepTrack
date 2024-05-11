@@ -44,13 +44,13 @@ end
   end
   
   def getTodos
-    @user = User.find_by(params[:id])
+    @user = User.find(params[:id])
     if @user
       folders_with_todos = @user.folders_with_todos
       if folders_with_todos.present?
         render status: 200, json: folders_with_todos.as_json(include: { todos: {} })
       else
-        render status: 400, json: { message: 'Folders not found' }
+        render status: 400, json: { message: 'Error fetching folders' }
       end
     else
       render status: 400, json: {message: 'User not found'}

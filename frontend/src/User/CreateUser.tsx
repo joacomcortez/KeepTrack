@@ -11,14 +11,16 @@ function CreateUser() {
    const navigate = useNavigate()
    const [user, setUser] = useState<string>('')
    const [password, setPassword] = useState<string>('')
-
+   const [checkPass, setCheckPass] = useState<string>('')
    async function handleForm(e: any) {
       try {
          e.preventDefault()
-         const response = await createUser(user, password)
-         if (user !== undefined) {
-            updateSessionUser(response.user)
-            navigate('/home')
+         if (password == checkPass) {
+            const response = await createUser(user, password)
+            if (user !== undefined) {
+               updateSessionUser(response.user)
+               navigate('/home')
+            }
          }
       } catch (err) {
          console.error('Error signing up:', err)
@@ -42,7 +44,13 @@ function CreateUser() {
             </div>
             <div className="form-field d-flex align-items-center">
                <span className="fas fa-key"></span>
-               <input type="password" name="password" id="pwd" placeholder="Password" />
+               <input
+                  type="password"
+                  name="password"
+                  id="pwd"
+                  placeholder="Password"
+                  onChange={(e: any) => setCheckPass(e.target.value)}
+               />
             </div>
             <div className="form-field d-flex align-items-center">
                <span className="fas fa-key"></span>
