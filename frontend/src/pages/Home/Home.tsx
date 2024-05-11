@@ -59,7 +59,7 @@ function Home() {
       setNewFolderTitle(e.target.value)
    }
 
-   const updateFolder = (updatedFolder: FolderInt) => {
+   const updateFolder = (updatedFolder: FolderInt, folderId: number) => {
       const updatedFolderId = updatedFolder.id
       setFolders((prevFolders) => {
          return prevFolders.map((folder) => {
@@ -69,7 +69,10 @@ function Home() {
             return folder
          })
       })
-      setUpdatedFolderId(updatedFolderId)
+      // setUpdatedFolderId(updatedFolderId)
+      if (user?.id) {
+         fetchFolders(user.id)
+      }
    }
    return (
       <>

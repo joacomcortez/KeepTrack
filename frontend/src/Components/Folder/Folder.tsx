@@ -9,7 +9,7 @@ import { createTodo, markCheckMark, updateTodo } from '../../User/userService'
 
 interface Props {
    folder: FolderInt
-   updateFolder: (updatedFolder: FolderInt) => void
+   updateFolder: (updatedFolder: FolderInt, folderId: number) => void
 }
 
 function Folder(props: Props) {
@@ -24,10 +24,13 @@ function Folder(props: Props) {
          if (newTodoTitle.trim() !== '') {
             const newTodo = await createTodo(props.folder.id, newTodoTitle)
             const updatedTodos = [...props.folder.todos, newTodo]
-            props.updateFolder({
-               ...props.folder,
-               todos: updatedTodos,
-            })
+            props.updateFolder(
+               {
+                  ...props.folder,
+                  todos: updatedTodos,
+               },
+               props.folder.id
+            )
             setNewTodoTitle('')
             setShowPopup(false)
          }
@@ -48,10 +51,13 @@ function Folder(props: Props) {
             const updatedTodos = props.folder.todos.map((todo) =>
                todo.id === updatedTodo.id ? updatedTodo : todo
             )
-            props.updateFolder({
-               ...props.folder,
-               todos: updatedTodos,
-            })
+            props.updateFolder(
+               {
+                  ...props.folder,
+                  todos: updatedTodos,
+               },
+               props.folder.id
+            )
             setEditingTodo(null)
             setEditTodoTitle('')
          } catch (err) {
@@ -61,16 +67,25 @@ function Folder(props: Props) {
    }
 
    async function handleCheckbox(id: number) {
-      let response
       try {
-         console.log('el id del todo es', id)
-         response = await markCheckMark(id)
-      } catch (err: any) {
-         console.log('Error marking checkMark: ', err)
-      }
-      return response
-   }
+         // Call markCheckMark to toggle the checkmark status
+         const updatedTodo = await markCheckMark(id)
 
+         // Update the state to reflect the changes in the UI
+         const updatedTodos = props.folder.todos.map((todo) =>
+            todo.id === updatedTodo.id ? updatedTodo : todo
+         )
+         props.updateFolder(
+            {
+               ...props.folder,
+               todos: updatedTodos,
+            },
+            props.folder.id
+         )
+      } catch (error) {
+         console.error('Error marking checkMark:', error)
+      }
+   }
    return (
       <div className="container">
          <div className="title">{props.folder.title}</div>
